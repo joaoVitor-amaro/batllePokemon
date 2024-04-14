@@ -15,7 +15,7 @@ typedef enum{
     Lutador
 } Tipos;
 
-//Struct que contém as características principais dos pokemons
+//Struct que contÃ©m as caracterÃ­sticas principais dos pokemons
 typedef struct{
     char nome[50];
     Tipos tipo;
@@ -26,7 +26,7 @@ typedef struct{
 } Status;
 
 
-//Função que calcula o dano do pokemon durante a rodada
+//FunÃ§Ã£o que calcula o dano do pokemon durante a rodada
 int calcular_dano(int atk_agressor, int def_defensor, int stamina_agressor){
     float dano = 0.0;
 
@@ -36,7 +36,7 @@ int calcular_dano(int atk_agressor, int def_defensor, int stamina_agressor){
 
 }
 
-//Função que determina o dano final dependendo do tipo dos pokemons na batalha
+//FunÃ§Ã£o que determina o dano final dependendo do tipo dos pokemons na batalha
 int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
     int novo_dano = 0;
 
@@ -97,7 +97,23 @@ int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
     return novo_dano;
 }
 
-//Função que recebe os status do pokemon e guarda essas informações
+//FunÃ§Ã£o de listar pokemom
+void listaPokemom(Status *pokemom) {
+	int i;
+	printf("\tLista de Pokemons\n");
+	printf("------------------------------------------------\n");
+	for(i=0; i < 8; i++) {
+		printf("%dÂ° %s", i+1, pokemom[i].nome);
+		if (i % 4 == 3 && i != 7) {
+            printf("\n");
+        } else if (i != 7) {
+            printf(" - ");
+        }
+	}
+	printf("\n------------------------------------------------\n");
+}
+
+//FunÃ§Ã£o que recebe os status do pokemon e guarda essas informaÃ§Ãµes
     Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp){
 
     Status personagem;
