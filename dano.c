@@ -97,6 +97,21 @@ int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
     return novo_dano;
 }
 
+//Função que recebe os status do pokemon e guarda essas informações
+    Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp){
+
+    Status personagem;
+    strcpy(personagem.nome, nome);
+    personagem.tipo = tipo;
+    personagem.ataque = atk;
+    personagem.defesa = def;
+    personagem.stamina = stm;
+    personagem.vida = hp;
+
+
+    return personagem;
+}
+
 //Função de listar pokemom
 void listaPokemom(Status *pokemom) {
 	int i;
@@ -111,21 +126,6 @@ void listaPokemom(Status *pokemom) {
         }
 	}
 	printf("\n------------------------------------------------\n");
-}
-
-//Função que recebe os status do pokemon e guarda essas informações
-    Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp){
-
-    Status personagem;
-    strcpy(personagem.nome, nome);
-    personagem.tipo = tipo;
-    personagem.ataque = atk;
-    personagem.defesa = def;
-    personagem.stamina = stm;
-    personagem.vida = hp;
-
-
-    return personagem;
 }
 
 int main() {
