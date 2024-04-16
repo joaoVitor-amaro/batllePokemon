@@ -25,7 +25,76 @@ typedef struct{
     int vida;
 } Status;
 
+//Função que calcula o dano do pokemon durante a rodada
+int calcular_dano(int atk_agressor, int def_defensor, int stamina_agressor){
+    float dano = 0.0;
 
+    dano = (2 * atk_agressor) + (stamina_agressor) - (2 * def_defensor);
+
+    return (int)dano;
+
+}
+
+//Função que determina o dano final dependendo do tipo dos pokemons na batalha
+int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
+    int novo_dano = 0;
+
+    switch (tipo_agressor){
+        case Agua:
+            if (tipo_defensor == Planta){
+                novo_dano = dano - 10;
+            } else if (tipo_defensor == Fogo){
+                novo_dano = dano + 15;
+            }
+        case Planta:
+            if (tipo_defensor == Agua){
+                novo_dano = dano + 15;
+            } else if (tipo_defensor == Fogo){
+                novo_dano = dano - 10;
+            } else if (tipo_defensor == Inseto){
+                novo_dano = dano - 10;
+            } else if (tipo_defensor == Venenoso){
+                novo_dano = dano - 10;
+            }
+        case Fogo:
+            if (tipo_defensor == Agua){
+                novo_dano = dano - 10;
+            } else if (tipo_defensor == Planta){
+                novo_dano = dano + 15;
+            } else if (tipo_defensor == Inseto){
+                novo_dano = dano + 15;
+            }
+        case Inseto:
+            if (tipo_defensor == Planta){
+                novo_dano = dano + 15;
+            } else if (tipo_defensor == Fogo){
+                novo_dano = dano - 10;
+            }
+        case Venenoso:
+            if (tipo_defensor == Planta){
+                novo_dano = dano + 15;
+            } else if (tipo_defensor == Fada){
+                novo_dano = dano + 15;
+            }
+        case Eletrico:
+            if (tipo_defensor == Agua){
+                novo_dano = dano + 15;
+            }
+        case Fada:
+            if (tipo_defensor == Lutador){
+                novo_dano = dano + 15;
+            } else if (tipo_defensor == Venenoso){
+                novo_dano = dano - 10;
+            }
+        case Lutador:
+            if (tipo_defensor == Fada){
+                novo_dano = dano - 10;
+            }
+        default:
+            novo_dano = dano;
+    }
+    return novo_dano;
+}
 
 //Função que recebe os status do pokemon e guarda essas informações
 Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp){
