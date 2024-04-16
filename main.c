@@ -15,7 +15,7 @@ typedef enum{
     Lutador
 } Tipos;
 
-//Struct que contém as características principais dos pokemons
+//Struct que contÃ©m as caracterÃ­sticas principais dos pokemons
 typedef struct{
     char nome[50];
     Tipos tipo;
@@ -26,7 +26,7 @@ typedef struct{
 } Status;
 
 
-//Função que recebe os status do pokemon e guarda essas informações
+//FunÃ§Ã£o que recebe os status do pokemon e guarda essas informaÃ§Ãµes
     Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp){
 
     Status personagem;
@@ -39,6 +39,21 @@ typedef struct{
 
 
     return personagem;
+}
+//FunÃ§Ã£o de listar pokemom
+void listaPokemom(Status *pokemom) {
+	int i;
+	printf("\tLista de Pokemons\n");
+	printf("------------------------------------------------\n");
+	for(i=0; i < 8; i++) {
+		printf("%dÂ° %s", i+1, pokemom[i].nome);
+		if (i % 4 == 3 && i != 7) {
+            printf("\n");
+        } else if (i != 7) {
+            printf(" - ");
+        }
+	}
+	printf("\n------------------------------------------------\n");
 }
 
 int main() {
