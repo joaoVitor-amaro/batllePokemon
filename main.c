@@ -15,7 +15,7 @@ typedef enum{
     Lutador
 } Tipos;
 
-//Struct que contém as características principais dos pokemons
+//Struct que contï¿½m as caracterï¿½sticas principais dos pokemons
 typedef struct{
     char nome[50];
     Tipos tipo;
@@ -25,7 +25,12 @@ typedef struct{
     int vida;
 } Status;
 
-//Função que calcula o dano do pokemon durante a rodada
+typedef struct{
+    Status escolhas[3];
+}Jogador;
+
+
+//Funï¿½ï¿½o que calcula o dano do pokemon durante a rodada
 int calcular_dano(int atk_agressor, int def_defensor, int stamina_agressor){
     float dano = 0.0;
 
@@ -35,7 +40,7 @@ int calcular_dano(int atk_agressor, int def_defensor, int stamina_agressor){
 
 }
 
-//Função que determina o dano final dependendo do tipo dos pokemons na batalha
+//Funï¿½ï¿½o que determina o dano final dependendo do tipo dos pokemons na batalha
 int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
     int novo_dano = 0;
 
@@ -96,7 +101,7 @@ int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
     return novo_dano;
 }
 
-//Função que recebe os status do pokemon e guarda essas informações
+//Funï¿½ï¿½o que recebe os status do pokemon e guarda essas informaï¿½ï¿½es
 Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp){
 
     Status personagem;
@@ -111,13 +116,13 @@ Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp
     return personagem;
 }
 
-//Função de listar pokemom
+//Funï¿½ï¿½o de listar pokemom
 void listaPokemom(Status *pokemom) {
 	int i;
 	printf("\tLista de Pokemons\n");
 	printf("------------------------------------------------\n");
 	for(i=0; i < 8; i++) {
-		printf("%d° %s", i+1, pokemom[i].nome);
+		printf("%dï¿½ %s", i+1, pokemom[i].nome);
 		if (i % 4 == 3 && i != 7) {
             printf("\n");
         } else if (i != 7) {
@@ -127,8 +132,32 @@ void listaPokemom(Status *pokemom) {
 	printf("\n------------------------------------------------\n");
 }
 
+// FunÃ§Ã£o de escolher pokemons
+void escolherPokemon(Jogador *jogador, Status *pokemons, int n){
+    int escolha, i;
+
+    for ( i = 0; i < 3; i++)
+    {
+        printf("Jogador, escolha o %dÂº pokemon (1-%d): ", i + 1, n );
+        scanf("%d", &escolha);
+
+        //validaÃ§Ã£o da escolja
+        while (escolha < 1 || escolha > n)
+        {
+            printf("Escolha invÃ¡lida. Tente novamente: ");
+            scanf("%d", &escolha); 
+        }
+
+        jogador->escolhas[i] = pokemons[escolha - 1];
+    }
+    
+}
+
 int main() {
   	setlocale(LC_ALL, "portuguese");
+
+     int i;
+     Jogador escolha[3];
 
   	Status pokemon[8];
     //Preenchendo os dados com os atributos dos pokemons
@@ -142,5 +171,6 @@ int main() {
     pokemon[7] = criacao_pokemon("Mankey", Lutador, 80, 35, 37, 40);
 
 	listaPokemom(pokemon);
+    
   return 0;
 }
