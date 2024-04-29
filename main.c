@@ -2,6 +2,7 @@
 #include <locale.h>
 #include <time.h>
 #include <string.h>
+#include <unistd.h>
 
 //Enum com tipos de pokemons para fazer vantagem entre tipos posteriormente
 typedef enum{
@@ -136,18 +137,18 @@ Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp
 
 //Funï¿½ï¿½o de listar pokemom
 void listaPokemom(Status *pokemom) {
-	int i;
+	int i; 
+	printf("--------------------------------------\n");
 	printf("\tLista de Pokemons\n");
-	printf("------------------------------------------------\n");
+	printf("--------------------------------------\n");
 	for(i=0; i < 8; i++) {
-		printf("%dï¿½ %s", i+1, pokemom[i].nome);
-		if (i % 4 == 3 && i != 7) {
-            printf("\n");
-        } else if (i != 7) {
-            printf(" - ");
-        }
+		printf("%d° %s", i+1, pokemom[i].nome);
+		printf("\t");
+		if(i % 2 != 0) {
+			printf("\n");
+		}
 	}
-	printf("\n------------------------------------------------\n");
+	printf("--------------------------------------\n");
 }
 
 // FunÃ§Ã£o de escolher pokemons
@@ -171,10 +172,29 @@ void escolherPokemon(Jogador *jogador, Status *pokemons, int n){
 
 }
 
+void status_pokemom(Status *pokemom, int numPoke) {
+	int i;
+	printf("-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+	printf("      Pokémom %s\n", pokemom[numPoke-1].nome);
+	printf("-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+	printf("Poder: %d\n", pokemom[numPoke-1].ataque);
+	printf("Defesa: %d\n", pokemom[numPoke-1].defesa);
+	printf("Stamina: %d\n", pokemom[numPoke-1].stamina);
+	printf("Vida: %d\n", pokemom[numPoke-1].vida);
+	printf("--------------------------\n");
+}
+
+//Menu de escolher e ver status dos pokemons
+void menuSelecionar() {
+	printf("=-=-=-=-==-=-=-=\n");
+	printf("[1] - Escolher\n");
+	printf("[2] - Pokemóns\n");
+	printf("=-=-=-=-==-=-=-=\n");
+}
+
 int main() {
     setlocale(LC_ALL, "portuguese");
 
-    int i;
     Jogador escolha[3];
 
     srand(time(NULL)); //Gerador de numeros aleatorios
@@ -199,7 +219,30 @@ int main() {
     pokemon[6] = criacao_pokemon("Clefairy", Fada, 45, 48, 38, 70, golpes_clefairy);
     pokemon[7] = criacao_pokemon("Mankey", Lutador, 80, 35, 37, 40, golpes_mankey);
 
-	listaPokemom(pokemon);
+	int i, opcao, numPoke;
+	int qt_pokeEscolhidos = 0;
+	while(1) {
+		menuSelecionar();
+		printf("Qual a sua opcao: ");
+		scanf("%d", &opcao);
+		sleep(1);
+		switch (opcao) {
+			case 1:
+				//selecionar pokemom
+				qt_pokeEscolhidos++;
+				break;
+			case 2:
+				//ver status pokemom
+				listaPokemom(pokemon);
+				printf("Quer ver dados de qual pokemom? N°");
+				scanf("%d", &numPoke);
+				status_pokemom(pokemon, numPoke);
+				break;
+		}	
+		if (qt_pokeEscolhidos == 3) {
+			break;
+		}
+	}
 
   return 0;
 }
