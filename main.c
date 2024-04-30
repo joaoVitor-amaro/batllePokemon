@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 //Enum com tipos de pokemons para fazer vantagem entre tipos posteriormente
 typedef enum{
@@ -21,7 +22,7 @@ typedef struct{
     int dano_ataques;
 } Ataques;
 
-//Struct que contï¿½m as caracterï¿½sticas principais dos pokemons
+//Struct que contem as caracteristicas principais dos pokemons
 typedef struct{
     char nome[50];
     Tipos tipo;
@@ -32,12 +33,22 @@ typedef struct{
     Ataques ataques[8];
 } Status;
 
+// struct com nome e escolhas jogador 1
 typedef struct{
+    char nome[20];
     Status escolhas[3];
-}Jogador;
+}Jogador1;
+
+// struct com nome e escolhas jogador 2
+typedef struct 
+{
+    char nome[20];
+    Status escolhas[3];
+}Jogador2;
 
 
-//Funï¿½ï¿½o que calcula o dano do pokemon durante a rodada
+
+//Funcaoo que calcula o dano do pokemon durante a rodada
 int calcular_dano(int atk_agressor, int def_defensor, int stamina_agressor){
     float dano = 0.0;
 
@@ -47,7 +58,7 @@ int calcular_dano(int atk_agressor, int def_defensor, int stamina_agressor){
 
 }
 
-//Funï¿½ï¿½o que determina o dano final dependendo do tipo dos pokemons na batalha
+//Funcaoo que determina o dano final dependendo do tipo dos pokemons na batalha
 int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
     int novo_dano = 0;
 
@@ -142,7 +153,7 @@ void listaPokemom(Status *pokemom) {
 	printf("\tLista de Pokemons\n");
 	printf("--------------------------------------\n");
 	for(i=0; i < 8; i++) {
-		printf("%d° %s", i+1, pokemom[i].nome);
+		printf("%d %s", i+1, pokemom[i].nome);
 		printf("\t");
 		if(i % 2 != 0) {
 			printf("\n");
@@ -160,7 +171,7 @@ void escolherPokemon(Jogador *jogador, Status *pokemons, int n){
         printf("Jogador, escolha o %dÂº pokemon (1-%d): ", i + 1, n );
         scanf("%d", &escolha);
 
-        //validaÃ§Ã£o da escolja
+        //validaÃ§Ã£o da escolha
         while (escolha < 1 || escolha > n)
         {
             printf("Escolha invÃ¡lida. Tente novamente: ");
@@ -175,7 +186,7 @@ void escolherPokemon(Jogador *jogador, Status *pokemons, int n){
 void status_pokemom(Status *pokemom, int numPoke) {
 	int i;
 	printf("-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-	printf("      Pokémom %s\n", pokemom[numPoke-1].nome);
+	printf("      Pokemom %s\n", pokemom[numPoke-1].nome);
 	printf("-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 	printf("Poder: %d\n", pokemom[numPoke-1].ataque);
 	printf("Defesa: %d\n", pokemom[numPoke-1].defesa);
@@ -188,7 +199,7 @@ void status_pokemom(Status *pokemom, int numPoke) {
 void menuSelecionar() {
 	printf("=-=-=-=-==-=-=-=\n");
 	printf("[1] - Escolher\n");
-	printf("[2] - Pokemóns\n");
+	printf("[2] - Pokemï¿½ns\n");
 	printf("=-=-=-=-==-=-=-=\n");
 }
 
@@ -234,7 +245,7 @@ int main() {
 			case 2:
 				//ver status pokemom
 				listaPokemom(pokemon);
-				printf("Quer ver dados de qual pokemom? N°");
+				printf("Quer ver dados de qual pokemom? N");
 				scanf("%d", &numPoke);
 				status_pokemom(pokemon, numPoke);
 				break;
