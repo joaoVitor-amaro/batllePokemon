@@ -33,6 +33,7 @@ typedef struct{
     Ataques ataques[8];
 } Status;
 
+
 // struct com nome e escolhas jogador 1
 typedef struct{
     char nome[20];
@@ -45,6 +46,13 @@ typedef struct
     char nome[20];
     Status escolhas[3];
 }Jogador2;
+
+// struct que agrupa os dois jogadores para uso em função posterior
+typedef struct 
+{
+    Jogador1 jogador1;
+    Jogador2 jogador2;
+}Jogo;
 
 
 
@@ -163,8 +171,19 @@ void listaPokemom(Status *pokemom) {
 }
 
 // Função de escolher pokemons
-void escolherPokemon(Jogador *jogador, Status *pokemons, int n){
+void escolherPokemon(Jogo *jogo, int jogadorNumero, Status *pokemons, int n){
     int escolha, i;
+
+    Jogador1 *jogador1;
+    Jogador2 *jogador2;
+
+    if (jogadorNumero == 1)
+    {
+        jogador1 = &jogo->jogador1;
+    }else {
+        jogador2 = &jogo->jogador2;
+    }
+    
 
     for ( i = 0; i < 3; i++)
     {
@@ -177,10 +196,14 @@ void escolherPokemon(Jogador *jogador, Status *pokemons, int n){
             printf("Escolha inválida. Tente novamente: ");
             scanf("%d", &escolha);
         }
-
-        jogador->escolhas[i] = pokemons[escolha - 1];
+        
+        // armazenando escolhas para cada jogador
+        if (jogadorNumero == 1) {
+            jogador1->escolhas[i] = pokemons[escolha - 1];
+        } else {
+            jogador2->escolhas[i] = pokemons[escolha - 1];
+        }
     }
-
 }
 
 void status_pokemom(Status *pokemom, int numPoke) {
@@ -206,7 +229,7 @@ void menuSelecionar() {
 int main() {
     setlocale(LC_ALL, "portuguese");
 
-    Jogador escolha[3];
+    Jogador1 escolha[3];
 
     srand(time(NULL)); //Gerador de numeros aleatorios
 
