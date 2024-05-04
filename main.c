@@ -147,6 +147,23 @@ void atualizacao_vida(Status *pokemon, int novo_dano){
     printf("%s recebeu %d de dano. Resta %d de vida", pokemon->nome, novo_dano, pokemon->vida);
 }
 
+void atualizar_status_apos_batalha(Status *pokemon) {
+    pokemon->stamina -= 10; 
+    
+    if (pokemon->stamina < 0) {
+        pokemon->stamina = 0;
+    }
+
+    if (pokemon->vida < 0) {
+        pokemon->vida = 0;
+    }
+
+    printf("\nAp�s a batalha:\n");
+    printf("Stamina restante de %s: %d\n", pokemon->nome, pokemon->stamina);
+    printf("Vida restante de %s: %d\n", pokemon->nome, pokemon->vida);
+}
+
+
 //Fun��o que recebe os status do pokemon e guarda essas informa��es
 Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp, Ataques ataque[8]){
 
@@ -265,6 +282,7 @@ void batalha(Jogo *jogo){
         // Verifica se o pokémon 2 foi derrotado
         if (pokemon2->vida <= 0) {
             printf("\nJogador 1 vence a batalha!\n");
+		atualizar_status_apos_batalha(pokemon1);
             return;
         }
 
@@ -278,8 +296,11 @@ void batalha(Jogo *jogo){
         // Verifica se o pokémon 1 foi derrotado
         if (pokemon1->vida <= 0) {
             printf("\nJogador 2 vence a batalha!\n");
+			atualizar_status_apos_batalha(pokemon2);
             return;
         }
+       
+
     }
 }
 
