@@ -145,7 +145,7 @@ int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
 void atualizacao_vida(Status *pokemon, int novo_dano){
     pokemon -> vida -= novo_dano;
 
-    printf("%s recebeu %d de dano. Resta %d de vida", pokemon->nome, novo_dano, pokemon->vida);
+    printf("%s recebeu %d de dano. Resta %d de vida\n", pokemon->nome, novo_dano, pokemon->vida);
 }
 
 void atualizar_status_apos_batalha(Status *pokemon) {
@@ -278,7 +278,6 @@ void batalha(Jogo *jogo){
         int dano1 = calcular_dano(pokemon1->ataque, pokemon2->defesa); // Correção aqui
         int dano1final = dano_tipo(pokemon1->tipo, pokemon2->tipo, dano1);
         atualizacao_vida(pokemon2, dano1);
-        printf("\nJogador 1 causa %d de dano. Vida restante do pokémon do Jogador 2: %d\n", dano1, pokemon2->vida);
 
         // Verifica se o pokémon 2 foi derrotado
         if (pokemon2->vida <= 0) {
@@ -292,7 +291,6 @@ void batalha(Jogo *jogo){
         int dano2 = calcular_dano(pokemon2->ataque, pokemon1->defesa);
         int dano2final = dano_tipo(pokemon2->tipo, pokemon1->tipo, dano2);
         atualizacao_vida(pokemon1, dano2final);
-        printf("\nJogador 2 causa %d de dano. Vida restante do pokémon do Jogador 1: %d\n", dano2, pokemon1->vida);
 
         // Verifica se o pokémon 1 foi derrotado
         if (pokemon1->vida <= 0) {
