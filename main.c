@@ -67,65 +67,65 @@ int calcular_dano(int atk_agressor, int def_defensor){
 
 //Função que determina o dano final dependendo do tipo dos pokemons na batalha
 int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
-    int novo_dano;
+    int novo_dano = dano;
 
     switch (tipo_agressor){
         case Agua:
             if (tipo_defensor == Planta){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             } else if (tipo_defensor == Fogo){
-                novo_dano = dano + 6;
+                novo_dano += dano + 6;
             }
             break;
         case Planta:
             if (tipo_defensor == Agua){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Fogo){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             } else if (tipo_defensor == Inseto){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             } else if (tipo_defensor == Venenoso){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             }
             break;
         case Fogo:
             if (tipo_defensor == Agua){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             } else if (tipo_defensor == Planta){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Inseto){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             }
             break;
         case Inseto:
             if (tipo_defensor == Planta){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Fogo){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             }
             break;
         case Venenoso:
             if (tipo_defensor == Planta){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Fada){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             }
             break;
         case Eletrico:
             if (tipo_defensor == Agua){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             }
             break;
         case Fada:
             if (tipo_defensor == Lutador){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Venenoso){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             }
             break;
         case Lutador:
             if (tipo_defensor == Fada){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             }
             break;
         default:
@@ -141,7 +141,11 @@ int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
 void atualizacao_vida(Status *pokemon, int novo_dano){
     pokemon->vida -= novo_dano;
 
-    printf("%s recebeu %d de dano. Resta %d de vida\n", pokemon->nome, novo_dano, pokemon->vida);
+    if (pokemon->vida >= 0){
+        printf("%s recebeu %d de dano. Resta %d de vida\n", pokemon->nome, novo_dano, pokemon->vida);
+    } else {
+        printf("%s recebeu %d de dano. Resta 0 de vida\n", pokemon->nome, novo_dano);
+    }
 }
 
 void atualizar_status_apos_batalha(Status *pokemon) {
@@ -330,14 +334,14 @@ int main() {
 
     Status pokemon[8];
     // Dados dos pokemons
-    pokemon[0] = criacao_pokemon("Squirtle", Agua, 48, 65, 50, 44, golpes_squirtle);
+    pokemon[0] = criacao_pokemon("Squirtle", Agua, 48, 40, 50, 44, golpes_squirtle);
     pokemon[1] = criacao_pokemon("Bulbassaur", Planta, 49, 49, 40, 45, golpes_bulbassaur);
     pokemon[2] = criacao_pokemon("Charmander", Fogo, 52, 43, 36, 39, golpes_charmander);
-    pokemon[3] = criacao_pokemon("Butterfree", Inseto, 45, 50, 39, 60, golpes_butterfree);
+    pokemon[3] = criacao_pokemon("Butterfree", Inseto, 45, 47, 39, 60, golpes_butterfree);
     pokemon[4] = criacao_pokemon("Ekans", Venenoso, 60, 44, 38, 35, golpes_ekans);
     pokemon[5] = criacao_pokemon("Pikachu", Eletrico, 55, 40, 35, 35, golpes_pikachu);
     pokemon[6] = criacao_pokemon("Clefairy", Fada, 45, 48, 38, 70, golpes_clefairy);
-    pokemon[7] = criacao_pokemon("Mankey", Lutador, 80, 35, 37, 40, golpes_mankey);
+    pokemon[7] = criacao_pokemon("Mankey", Lutador, 80, 39, 37, 40, golpes_mankey);
 
     int opcao;
     int pokemons_escolhidos = 0;
