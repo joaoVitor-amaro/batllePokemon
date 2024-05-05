@@ -267,7 +267,7 @@ void batalha(Jogo *jogo){
     Status *pokemon2 = &jogo->jogador2.escolhas[jogador2_escolha];
 
     while (pokemon1->vida > 0 && pokemon2->vida > 0) {
-        // Jogador 1 escolhe o ataque
+        // Ataque do jogador 1
         printf("\nJogador 1, escolha um ataque para seu %s (1-4):\n", pokemon1->nome);
         for (int i = 0; i < 4; i++) {
             printf("%d - %s\n", i + 1, pokemon1->ataques[i].nome_ataques);
@@ -275,7 +275,29 @@ void batalha(Jogo *jogo){
         scanf("%d", &ataque1_escolha);
         ataque1_escolha -= 1; //Necessario para compreender o indice do array
 
-        // Jogador 2 escolhe o ataque
+         // Mostra o ataque usado pelo pokemon 1 e a vida do defensor apos o ataque
+        printf("\n%s usa %s\n", pokemon1->nome, pokemon1->ataques[ataque1_escolha].nome_ataques);
+        int dano1 = calcular_dano(pokemon1->ataques[ataque1_escolha].dano_ataques, pokemon2->defesa);
+        int dano1final = dano_tipo(pokemon1->tipo, pokemon2->tipo, dano1);
+        atualizacao_vida(pokemon2, dano1final);
+        
+        // Verifica a vida dos pokemons após o primeiro ataque
+        if (pokemon1->vida <= 0 && pokemon2->vida <=0)
+        {
+            printf("A batalha termina em empate.");
+        } else if (pokemon1->vida <= 0)
+        {
+            printf("\nJogador 2 vence a batalha!\n");
+            atualizar_status_apos_batalha(pokemon2);
+            return;
+        } else if (pokemon2->vida <= 0)
+        {
+            printf("\nJogador 1 vence a batalha!\n");
+            atualizar_status_apos_batalha(pokemon1);
+            return;
+        }
+
+        // Ataque do jogador 2
         printf("\nJogador 2, escolha um ataque para %s (1-4):\n", pokemon2->nome);
         for (int i = 0; i < 4; i++) {
             printf("%d - %s\n", i + 1, pokemon2->ataques[i].nome_ataques);
@@ -283,18 +305,12 @@ void batalha(Jogo *jogo){
         scanf("%d", &ataque2_escolha);
         ataque2_escolha -= 1;
 
-        // Mostra o ataque usado pelo pokemon e a vida do defensor ap�s o ataque
-        printf("\n%s usa %s\n", pokemon1->nome, pokemon1->ataques[ataque1_escolha].nome_ataques);
-        int dano1 = calcular_dano(pokemon1->ataques[ataque1_escolha].dano_ataques, pokemon2->defesa);
-        int dano1final = dano_tipo(pokemon1->tipo, pokemon2->tipo, dano1);
-        atualizacao_vida(pokemon2, dano1final);
-
         printf("\n%s usa %s\n", pokemon2->nome, pokemon2->ataques[ataque2_escolha].nome_ataques);
         int dano2 = calcular_dano(pokemon2->ataques[ataque2_escolha].dano_ataques, pokemon1->defesa);
         int dano2final = dano_tipo(pokemon2->tipo, pokemon1->tipo, dano2);
         atualizacao_vida(pokemon1, dano2final);
 
-        // Verifica a vida dos pokemons
+        // Verifica a vida dos pokemons após segundo ataque
 
         if (pokemon1->vida <= 0 && pokemon2->vida <=0)
         {
