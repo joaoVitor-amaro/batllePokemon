@@ -52,90 +52,86 @@ typedef struct
     Jogador2 jogador2;
 }Jogo;
 
-//Funï¿½ï¿½o que calcula o dano do pokemon durante a rodada
+//Função que calcula o dano do pokemon durante a rodada
 int calcular_dano(int atk_agressor, int def_defensor){
 
     int dano = (atk_agressor - def_defensor);
 
-     if (dano <= 0) {
-        return 1;
-     } else {
-        return dano;
+     if (dano < 0) {
+        dano = 0;
+        int dano_comum = rand() % 7 + 2;
+        dano += dano_comum;
      }
+     return dano;
 
 }
 
-//Funï¿½ï¿½o que determina o dano final dependendo do tipo dos pokemons na batalha
+//Funçãoo que determina o dano final dependendo do tipo dos pokemons na batalha
 int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
-    int novo_dano;
+    int novo_dano = dano;
 
     switch (tipo_agressor){
         case Agua:
             if (tipo_defensor == Planta){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             } else if (tipo_defensor == Fogo){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             }
             break;
         case Planta:
             if (tipo_defensor == Agua){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Fogo){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             } else if (tipo_defensor == Inseto){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             } else if (tipo_defensor == Venenoso){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             }
             break;
         case Fogo:
             if (tipo_defensor == Agua){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             } else if (tipo_defensor == Planta){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Inseto){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             }
             break;
         case Inseto:
             if (tipo_defensor == Planta){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Fogo){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             }
             break;
         case Venenoso:
             if (tipo_defensor == Planta){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Fada){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             }
             break;
         case Eletrico:
             if (tipo_defensor == Agua){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             }
             break;
         case Fada:
             if (tipo_defensor == Lutador){
-                novo_dano = dano + 6;
+                novo_dano += 6;
             } else if (tipo_defensor == Venenoso){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             }
             break;
         case Lutador:
             if (tipo_defensor == Fada){
-                novo_dano = dano - 4;
+                novo_dano -= 4;
             }
             break;
-        default:
-            break;
     }
-     if (novo_dano <= 0) {
-        return 1;
-    } else {
-        return novo_dano;
-    }
+    return novo_dano;
+
 }
 
 void atualizacao_vida(Status *pokemon, int novo_dano){
@@ -163,7 +159,7 @@ void atualizar_status_apos_batalha(Status *pokemon) {
 
 //Funï¿½ï¿½o que recebe os status do pokemon e guarda essas informaï¿½ï¿½es
 Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp, Ataques ataques[4]){
-
+	int i;
     Status personagem;
     strcpy(personagem.nome, nome);
     personagem.tipo = tipo;
@@ -172,7 +168,7 @@ Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp
     personagem.stamina = stm;
     personagem.vida = hp;
 
-    for (int i = 0; i < 4; i++) {
+    for (i = 0; i < 4; i++) {
         strcpy(personagem.ataques[i].nome_ataques, ataques[i].nome_ataques);
         personagem.ataques[i].dano_ataques = ataques[i].dano_ataques;
     }
@@ -182,17 +178,18 @@ Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp
 
 //Funï¿½ï¿½o de listar pokemons
 void listaPokemon(Status *pokemons) {
-    printf("--------------------------------------\n");
-    printf("\tLista de Pokemons\n");
-    printf("--------------------------------------\n");
-    for(int i = 0; i < 8; i++) {
-        printf("%d %s", i + 1, pokemons[i].nome);
-        printf("\t");
-        if(i % 2 != 0) {
-            printf("\n");
-        }
-    }
-    printf("--------------------------------------\n");
+	int i;
+	printf("-----------------------------------\n");
+	printf("\tLista de Pokemons\n");
+	printf("-----------------------------------\n");
+	for(i=0; i < 8; i++) {
+		printf("%d° %s", i+1, pokemons[i].nome);
+		printf("\t");
+		if(i % 2 != 0) {
+			printf("\n");
+		}
+	}
+	printf("\n----------------------------------\n");
 }
 
 // Funï¿½ï¿½o de escolher pokemons
@@ -219,6 +216,7 @@ void escolherPokemon(Jogo *jogo, int jogadorNumero, Status *pokemons, int n) {
 }
 
 void statusPokemon(Status *pokemon, int numPoke) {
+	int i;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     printf("      Pokemon %s\n", pokemon[numPoke - 1].nome);
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
@@ -227,7 +225,7 @@ void statusPokemon(Status *pokemon, int numPoke) {
     printf("Stamina: %d\n", pokemon[numPoke - 1].stamina);
     printf("Vida: %d\n", pokemon[numPoke - 1].vida);
     printf("Ataques:\n");
-    for (int i = 0; i < 4; ++i) {
+    for (i = 0; i < 4; ++i) {
         printf("%d - %s | Dano: %d)\n", i + 1, pokemon[numPoke - 1].ataques[i].nome_ataques, pokemon[numPoke - 1].ataques[i].dano_ataques);
     }
     printf("--------------------------\n");
@@ -267,9 +265,10 @@ void batalha(Jogo *jogo){
     Status *pokemon2 = &jogo->jogador2.escolhas[jogador2_escolha];
 
     while (pokemon1->vida > 0 && pokemon2->vida > 0) {
+    	int i;
         // Ataque do jogador 1
         printf("\nJogador 1, escolha um ataque para seu %s (1-4):\n", pokemon1->nome);
-        for (int i = 0; i < 4; i++) {
+        for (i = 0; i < 4; i++) {
             printf("%d - %s\n", i + 1, pokemon1->ataques[i].nome_ataques);
         }
         scanf("%d", &ataque1_escolha);
@@ -299,7 +298,7 @@ void batalha(Jogo *jogo){
 
         // Ataque do jogador 2
         printf("\nJogador 2, escolha um ataque para %s (1-4):\n", pokemon2->nome);
-        for (int i = 0; i < 4; i++) {
+        for (i = 0; i < 4; i++) {
             printf("%d - %s\n", i + 1, pokemon2->ataques[i].nome_ataques);
         }
         scanf("%d", &ataque2_escolha);
@@ -375,6 +374,7 @@ int main() {
 
         switch (opcao) {
             case 1:
+            	listaPokemon(pokemon);
             // Jogador 1 escolhe o pokï¿½mon
                 escolherPokemon(&jogo, 1, pokemon, 8);
                 // Jogador 2 escolhe o pokï¿½mon
