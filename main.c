@@ -45,14 +45,14 @@ typedef struct
     Status escolhas[3];
 }Jogador2;
 
-// struct que agrupa os dois jogadores para uso em função posterior
+// struct que agrupa os dois jogadores para uso em funï¿½ï¿½o posterior
 typedef struct
 {
     Jogador1 jogador1;
     Jogador2 jogador2;
 }Jogo;
 
-//Função que calcula o dano do pokemon durante a rodada
+//FunÃ§Ã£o que calcula o dano do pokemon durante a rodada
 int calcular_dano(int atk_agressor, int def_defensor){
 
     int dano = (atk_agressor - def_defensor);
@@ -66,7 +66,7 @@ int calcular_dano(int atk_agressor, int def_defensor){
 
 }
 
-//Funçãoo que determina o dano final dependendo do tipo dos pokemons na batalha
+//FunÃ§Ã£o que determina o dano final dependendo do tipo dos pokemons na batalha
 int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
     int novo_dano = dano;
 
@@ -130,6 +130,10 @@ int dano_tipo(Tipos tipo_agressor, Tipos tipo_defensor, int dano){
             }
             break;
     }
+
+    if (novo_dano < 0){
+        novo_dano = 0;
+    }
     return novo_dano;
 
 }
@@ -145,9 +149,9 @@ void atualizacao_vida(Status *pokemon, int novo_dano){
     }
 }
 
-//Funï¿½ï¿½o que recebe os status do pokemon e guarda essas informaï¿½ï¿½es
+//FunÃ§Ã£o que recebe os status do pokemon e guarda essas informaÃ§Ãµes
 Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp, Ataques ataques[4]){
-	int i;
+    int i;
     Status personagem;
     strcpy(personagem.nome, nome);
     personagem.tipo = tipo;
@@ -164,39 +168,39 @@ Status criacao_pokemon(char* nome, Tipos tipo, int atk, int def, int stm, int hp
     return personagem;
 }
 
-//Função de listar pokemons
+//FunÃ§Ã£o de listar pokemons
 void listaPokemon(Status *pokemons) {
-	int i;
-	printf("-----------------------------------\n");
-	printf("\tLista de Pokemons\n");
-	printf("-----------------------------------\n");
-	for(i=0; i < 8; i++) {
-		printf("%d° %s", i+1, pokemons[i].nome);
-		printf("\t");
-		if(i % 2 != 0) {
-			printf("\n");
-		}
-	}
-	printf("\n----------------------------------\n");
+    int i;
+    printf("-----------------------------------\n");
+    printf("\tLista de Pokemons\n");
+    printf("-----------------------------------\n");
+    for(i=0; i < 8; i++) {
+        printf("%d - %s", i+1, pokemons[i].nome);
+        printf("\t");
+        if(i % 2 != 0) {
+            printf("\n");
+        }
+    }
+    printf("\n----------------------------------\n");
 }
 
-// Funï¿½ï¿½o de escolher pokemons
+// FunÃ§Ã£o de escolher pokemons
 void escolherPokemon(Jogo *jogo, int jogadorNumero, Status *pokemons, int n) {
     int escolha;
 
     if (jogadorNumero == 1) {
-        printf("Jogador 1, escolha seu pokï¿½mon (1-%d): ", n);
+        printf("Jogador 1, escolha seu pokÃ©mon (1-%d): ", n);
         scanf("%d", &escolha);
         while (escolha < 1 || escolha > n) {
-            printf("Escolha invï¿½lida. Tente novamente: ");
+            printf("Escolha invÃ¡lida. Tente novamente: ");
             scanf("%d", &escolha);
         }
         jogo->jogador1.escolhas[0] = pokemons[escolha - 1];
     } else {
-        printf("Jogador 2, escolha seu pokï¿½mon (1-%d): ", n);
+        printf("Jogador 2, escolha seu pokÃ©mon (1-%d): ", n);
         scanf("%d", &escolha);
         while (escolha < 1 || escolha > n) {
-            printf("Escolha invï¿½lida. Tente novamente: ");
+            printf("Escolha invÃ¡lida. Tente novamente: ");
             scanf("%d", &escolha);
         }
         jogo->jogador2.escolhas[0] = pokemons[escolha - 1];
@@ -204,7 +208,7 @@ void escolherPokemon(Jogo *jogo, int jogadorNumero, Status *pokemons, int n) {
 }
 
 void statusPokemon(Status *pokemon, int numPoke) {
-	int i;
+    int i;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     printf("      Pokemon %s\n", pokemon[numPoke - 1].nome);
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
@@ -227,21 +231,21 @@ void menuSelecionar() {
     printf("=-=-=-=-==-=-=-=\n");
 }
 
-// função de batalha
+// funÃ§Ã£o de batalha
 void batalha(Jogo *jogo){
     int jogador1_escolha, jogador2_escolha;
     int ataque1_escolha, ataque2_escolha;
 
     printf("\nIniciando batalha!\n");
 
-    // Escolha de pokémons para batalha
-    printf("\nJogador 1, confirme a escolha do seu pokemon (1 - Sim 0 - Não): ");
+    // Escolha de pokÃ©mons para batalha
+    printf("\nJogador 1, confirme a escolha do seu pokemon (1 - Sim 0 - NÃ£o): ");
     scanf("%d", &jogador1_escolha);
-    jogador1_escolha -= 1; // Ajusta para índice
+    jogador1_escolha -= 1; // Ajusta para Ã­ndice
 
-    printf("\nJogador 2, confirme a escolha do seu pokemon (1 - Sim 0 - Não): ");
+    printf("\nJogador 2, confirme a escolha do seu pokemon (1 - Sim 0 - NÃ£o): ");
     scanf("%d", &jogador2_escolha);
-    jogador2_escolha -= 1; // Ajusta para índice
+    jogador2_escolha -= 1; // Ajusta para Ã­ndice
 
      if (jogador2_escolha != 0 || jogador1_escolha != 0)
     {
@@ -253,7 +257,7 @@ void batalha(Jogo *jogo){
     Status *pokemon2 = &jogo->jogador2.escolhas[jogador2_escolha];
 
     while (pokemon1->vida > 0 && pokemon2->vida > 0) {
-    	int i;
+        int i;
         // Ataque do jogador 1
         printf("\nJogador 1, escolha um ataque para seu %s (1-4):\n", pokemon1->nome);
         for (i = 0; i < 4; i++) {
@@ -292,7 +296,7 @@ void batalha(Jogo *jogo){
         int dano2final = dano_tipo(pokemon2->tipo, pokemon1->tipo, dano2);
         atualizacao_vida(pokemon1, dano2final);
 
-        // Verifica a vida dos pokemons após segundo ataque
+        // Verifica a vida dos pokemons apÃ³s segundo ataque
 
     if (pokemon1->vida <= 0)
         {
@@ -308,8 +312,8 @@ void batalha(Jogo *jogo){
 
 void menu() {
     printf("\nMenu:\n");
-    printf("[1] Escolher Pokémons\n");
-    printf("[2] Exibir lista de Pokémons\n");
+    printf("[1] Escolher PokÃ©mons\n");
+    printf("[2] Exibir lista de PokÃ©mons\n");
     printf("[3] Iniciar batalha\n");
     printf("[4] Sair\n");
 }
@@ -347,15 +351,15 @@ int main() {
 
     while (1) {
         menu();
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opÃ§Ã£o: ");
         scanf("%d", &opcao);
 
         switch (opcao) {
             case 1:
-            	listaPokemon(pokemon);
-            // Jogador 1 escolhe o pokï¿½mon
+                listaPokemon(pokemon);
+            // Jogador 1 escolhe o pokÃ©mon
                 escolherPokemon(&jogo, 1, pokemon, 8);
-                // Jogador 2 escolhe o pokï¿½mon
+                // Jogador 2 escolhe o pokÃ©mon
                 escolherPokemon(&jogo, 2, pokemon, 8);
                 pokemons_escolhidos = 1;
 
@@ -367,9 +371,9 @@ int main() {
 
                 continue;
             case 2:
-                // Exibir lista de pokï¿½mons
+                // Exibir lista de pokÃ©mons
                 listaPokemon(pokemon);
-                printf("Digite o número do pokémon para ver os detalhes: ");
+                printf("Digite o nÃºmero do pokÃ©mon para ver os detalhes: ");
                 int numPoke;
                 scanf("%d", &numPoke);
                 statusPokemon(pokemon, numPoke);
@@ -379,10 +383,10 @@ int main() {
                 if (pokemons_escolhidos) {
                     batalha(&jogo);
                 } else {
-                    printf("\nVocê precisa escolher seu pokémon primeiro!\n");
+                    printf("\nVocÃª precisa escolher seu pokï¿½mon primeiro!\n");
                 }
                 menu();
-                printf("Escolha uma opção: ");
+                printf("Escolha uma opÃ§Ã£o: ");
                 scanf("%d", &opcao);
                 break;
             case 4:
@@ -390,7 +394,7 @@ int main() {
                 printf("\nSaindo do jogo...\n");
                 return 0;
             default:
-                printf("\nOpção inválida. Tente novamente.\n");
+                printf("\nOpÃ§Ã£o invÃ¡lida. Tente novamente.\n");
                 break;
         }
 
